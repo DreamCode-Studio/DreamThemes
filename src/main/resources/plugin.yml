@@ -1,0 +1,7 @@
+name: DreamThemes
+version: '${version}'
+main: com.dreamcode.dreamthemes.DreamThemes
+api-version: '1.16'
+load: STARTUP
+commands:
+  dreamthemes: {}

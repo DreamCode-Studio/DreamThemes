@@ -1,0 +1,94 @@
+themes: # темы, здесь можно добавить свои (CLASSIC предусмотрен по стандарту)
+  - RARE
+  - EPIC
+  - LEGENDARY
+
+database: # настройка БД
+  type: sqlite # sqllite/mysql
+  mysql:
+    # host: localhost
+    # port: 3306
+    # database: dreamthemes
+    # username: user
+    # password: password
+
+check-interval: 3 # интервал в секундах для проверки игрока на наличие темы (дабы, если право закончиится у игрока, то и тема вернется на классическую
+cache:
+  duration: 500 # в секундах
+  maximum-size: 1000
+messages: # сообщения, формат прост: название секции + выбранная тема того, кому отправлятся сообщения
+  player-is-offline:
+    CLASSIC:
+      - '&#D9FFBE» &fИгрок оффлайн. Ваша тема: &#D9FFBEк&#D5FEC4л&#D1FDC9а&#CDFCCFс&#C9FBD5с&#C5FADBи&#C1F8E0ч&#BDF7E6е&#B9F6ECс&#B5F5F2к&#B1F4F7а&#ADF3FDя'
+    RARE:
+      - '&#8283FF» &fИгрок оффлайн. Ваша тема: &#8283FFр&#8B99FFе&#93B0FEд&#9CC6FEк&#A4DDFDа&#ADF3FDя'
+    EPIC:
+      - '&#F8FF6D» &fИгрок оффлайн. Ваша тема: &#F8FF6Dэ&#EEFF6Eп&#E4FF70и&#D9FE71ч&#CFFE72е&#C5FE73с&#BBFE75к&#B0FD76а&#A6FD77я'
+    LEGENDARY:
+      - '&#19C1FF» &fИгрок оффлайн. Ваша тема: &#19C1FFл&#35CDE4е&#51D9C9г&#6EE5ADе&#8AF192н&#A6FD77д&#B7F762а&#C9F14Dр&#DAEA37н&#ECE422а&#FDDE0Dя'
+  invalid-theme:
+    CLASSIC:
+      - '&#D9FFBE» &fУказана неверная тема'
+    RARE:
+      - '&#8283FF» &fТакой темы не существует'
+    EPIC:
+      - '&#F8FF6D» &fТакой темы не существует'
+    LEGENDARY:
+      - '&#19C1FF» &fТакой темы не существует'
+  theme-set:
+    CLASSIC:
+      - '&#D9FFBE» &fТема успешно установлена'
+    RARE:
+      - '&#8283FF» &fВы выбрали редкую тему'
+    EPIC:
+      - '&#F8FF6D» &fЭпичная тема активирована'
+    LEGENDARY:
+      - '&#19C1FF» &fЛегендарная тема установлена'
+  theme-set-others:
+    CLASSIC:
+      - '&#D9FFBE» &fТема установлена для игрока'
+    RARE:
+      - '&#8283FF» &fТема изменена для другого игрока'
+    EPIC:
+      - '&#F8FF6D» &fИгроку установлен эпический стиль'
+    LEGENDARY:
+      - '&#19C1FF» &fИгрок получил легендарный стиль'
+  invalid-usage:
+    CLASSIC:
+      - '&#D9FFBE» &fИспользование: /dreamthemes <theme> или /dreamthemes set <player> <theme>'
+    RARE:
+      - '&#8283FF» &fНеверный формат команды'
+    EPIC:
+      - '&#F8FF6D» &fПроверьте правильность команды'
+    LEGENDARY:
+      - '&#19C1FF» &fКоманда введена неверно'
+  console-cannot-set-self:
+    CLASSIC:
+      - '&#D9FFBE» &fКонсоль не может устанавливать свою тему'
+  cannot-edit-yourself:
+    CLASSIC:
+      - '&#D9FFBE» &fВы не можете изменить свою тему у вас нет прав'
+    RARE:
+      - '&#8283FF» &fВы не можете изменить свою тему у вас нет прав'
+    EPIC:
+      - '&#F8FF6D» &fВы не можете изменить свою тему у вас нет прав'
+    LEGENDARY:
+      - '&#19C1FF» &fВы не можете изменить свою тему у вас нет прав'
+  reload-success:
+    CLASSIC:
+      - '&#D9FFBE» &fКонфигурация успешно перезагружена'
+    RARE:
+      - '&#8283FF» &fКонфигурация успешно перезагружена'
+    EPIC:
+      - '&#F8FF6D» &fКонфигурация успешно перезагружена'
+    LEGENDARY:
+      - '&#19C1FF» &f&aКонфигурация успешно перезагружена'
+  reload-error:
+    CLASSIC:
+      - '&#D9FFBE» &fНе удалось перезагрузить конфигурацию'
+    RARE:
+      - '&#8283FF» &fНе удалось перезагрузить конфигурацию'
+    EPIC:
+      - '&#F8FF6D» &fНе удалось перезагрузить конфигурацию'
+    LEGENDARY:
+      - '&#19C1FF» &fНе удалось перезагрузить конфигурацию'
