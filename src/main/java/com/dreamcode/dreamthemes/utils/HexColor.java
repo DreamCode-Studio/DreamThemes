@@ -6,10 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HexColor {
+    private static final Pattern HEX_PATTERN = Pattern.compile("&#([0-9a-fA-F]{6})");
 
     public static String colorize(String message) {
-        Pattern pattern = Pattern.compile("&#([0-9a-fA-F]{6})");
-        Matcher matcher = pattern.matcher(message);
+        Matcher matcher = HEX_PATTERN.matcher(message);
         StringBuilder result = new StringBuilder();
         int lastEnd = 0;
         while (matcher.find()) {

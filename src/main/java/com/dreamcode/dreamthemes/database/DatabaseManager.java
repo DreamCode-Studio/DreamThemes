@@ -6,6 +6,7 @@ import lombok.Setter;
 import com.dreamcode.dreamthemes.database.service.DatabaseService;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ public abstract class DatabaseManager implements DatabaseService {
 
     public abstract void disconnect();
 
-    public abstract String getTheme(UUID uuid);
+    public abstract CompletableFuture<String> getTheme(UUID uuid);
 
-    public abstract void setTheme(UUID uuid, String theme);
+    public abstract CompletableFuture<Void> setTheme(UUID uuid, String theme);
 }

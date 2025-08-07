@@ -22,13 +22,14 @@ public class ThemeCheckTask {
             public void run() {
                 for (Player player : plugin.getServer().getOnlinePlayers()) {
                     UUID uuid = player.getUniqueId();
-                    String theme = themeService.getTheme(uuid);
-                    if (!theme.equalsIgnoreCase("CLASSIC") &&
-                            !player.hasPermission("dreamthemes." + theme.toLowerCase())) {
-                        themeService.setTheme(uuid, "CLASSIC");
-                    }
+                    themeService.getTheme(uuid).thenAccept(theme -> {
+                        if (!theme.equalsIgnoreCase("CLASSIC") &&
+                                !player.hasPermission("dreamthemes." + theme.toLowerCase())) {
+                            themeService.setTheme(uuid, "CLASSIC");
+                        }
+                    });
                 }
             }
-        }.runTaskTimer(plugin, 0L, interval);
+        }.runTaskTimerAsynchronously(plugin, 0L, interval);
     }
 }

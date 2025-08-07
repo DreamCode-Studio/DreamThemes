@@ -36,7 +36,7 @@ public final class DreamThemes extends JavaPlugin {
         databaseService = configService.getDatabaseType().equalsIgnoreCase("sqlite") ?
                 new SQLiteDatabaseManager(this) : new MySQLDatabaseManager(configService);
         themeService = new ThemeManager(databaseService, configService);
-        messageService = new MessageHandler(configService, themeService);
+        messageService = new MessageHandler(configService, themeService,this);
 
         getServer().getServicesManager().register(ThemeAPI.class, new ThemeAPIImpl(themeService), this, ServicePriority.Normal);
 

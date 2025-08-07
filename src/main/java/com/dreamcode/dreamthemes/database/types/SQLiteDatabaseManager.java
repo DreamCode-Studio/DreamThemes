@@ -3,16 +3,16 @@ package com.dreamcode.dreamthemes.database.types;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.Synchronized;
 import com.dreamcode.dreamthemes.DreamThemes;
 import com.dreamcode.dreamthemes.database.DatabaseManager;
+import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
 public class SQLiteDatabaseManager extends DatabaseManager {
@@ -42,35 +42,35 @@ public class SQLiteDatabaseManager extends DatabaseManager {
     }
 
     @Override
-    @SneakyThrows
-    @Synchronized
-    public String getTheme(UUID uuid) {
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(
-                     "SELECT currentStyle FROM player_themes WHERE uuid = ?")) {
-            stmt.setString(1, uuid.toString());
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getString("currentStyle");
+    public CompletableFuture<String> getTheme(UUID uuid) {
+        return CompletableFuture.supplyAsync(() -> {
+            try (Connection conn = dataSource.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(
+                         "SELECT currentStyle FROM player_themes WHERE uuid = ?")) {
+                stmt.setString(1, uuid.toString());
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getString("currentStyle");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return "CLASSIC";
+            return "CLASSIC";
+        }, runnable -> Bukkit.getScheduler().runTaskAsynchronously(plugin, runnable));
     }
 
     @Override
-    @SneakyThrows
-    @Synchronized
-    public void setTheme(UUID uuid, String theme) {
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(
-                     "INSERT OR REPLACE INTO player_themes (uuid, currentStyle) VALUES (?, ?)")) {
-            stmt.setString(1, uuid.toString());
-            stmt.setString(2, theme);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public CompletableFuture<Void> setTheme(UUID uuid, String theme) {
+        return CompletableFuture.runAsync(() -> {
+            try (Connection conn = dataSource.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(
+                         "INSERT OR REPLACE INTO player_themes (uuid, currentStyle) VALUES (?, ?)")) {
+                stmt.setString(1, uuid.toString());
+                stmt.setString(2, theme);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }, runnable -> Bukkit.getScheduler().runTaskAsynchronously(plugin, runnable));
     }
 }

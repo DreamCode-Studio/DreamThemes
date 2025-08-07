@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
@@ -31,25 +32,27 @@ public class ThemeManager implements ThemeService {
                 .build(new CacheLoader<UUID, String>() {
                     @Override
                     public String load(@NotNull UUID uuid) {
-                        return databaseService.getTheme(uuid);
+                        return databaseService.getTheme(uuid).join();
                     }
                 });
     }
 
     @Override
-    public String getTheme(UUID uuid) {
-        return themeCache.getUnchecked(uuid);
+    public CompletableFuture<String> getTheme(UUID uuid) {
+        return CompletableFuture.completedFuture(themeCache.getUnchecked(uuid));
     }
 
     @Override
-    public void setTheme(UUID uuid, String themeInput) {
+    public CompletableFuture<Void> setTheme(UUID uuid, String themeInput) {
         String theme = findTheme(themeInput);
         if (theme == null && !themeInput.equalsIgnoreCase("CLASSIC")) {
-            return;
+            return CompletableFuture.completedFuture(null);
         }
-        theme = theme != null ? theme : "CLASSIC";
-        databaseService.setTheme(uuid, theme);
-        themeCache.put(uuid, theme);
+        String effectiveTheme = theme != null ? theme : "CLASSIC";
+        final UUID finalUuid = uuid;
+        final String finalTheme = effectiveTheme;
+        return databaseService.setTheme(finalUuid, finalTheme)
+                .thenRun(() -> themeCache.put(finalUuid, finalTheme));
     }
 
     @Override
